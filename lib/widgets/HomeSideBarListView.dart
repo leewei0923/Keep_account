@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:keep_account/main.dart';
+import 'package:keep_account/pages/allAccountPage.dart';
 import 'package:keep_account/pages/setting.dart';
 import 'package:keep_account/pages/preSetting.dart';
 
@@ -55,6 +56,7 @@ class HomeSideBarListType {
 
 List<HomeSideBarListType> HomeSideBarLists = [
   HomeSideBarListType(icon: Icons.home, label: "首页", router: MyApp()),
+  HomeSideBarListType(icon: Icons.account_box, label: "账号列表", router: AllAccountPage()),
   HomeSideBarListType(
       icon: Icons.settings_backup_restore_sharp,
       label: "预先设置",

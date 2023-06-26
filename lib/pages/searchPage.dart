@@ -74,7 +74,7 @@ class SearchPageState extends State<SearchPage> {
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                  children: const [
                     Icon(Icons.search),
                     SizedBox(width: 10),
                     Text('Search'),
@@ -102,14 +102,15 @@ class _MySearchDelegate extends SearchDelegate<String> {
   @override
   Widget buildLeading(BuildContext context) {
     return IconButton(
-      tooltip: 'Back',
+      tooltip: '返回',
       icon: AnimatedIcon(
         icon: AnimatedIcons.menu_arrow,
         progress: transitionAnimation,
       ),
       onPressed: () {
+
         // SearchDelegate.close() can return vlaues, similar to Navigator.pop().
-        this.close(context, '');
+        close(context, '');
       },
     );
   }
@@ -117,17 +118,21 @@ class _MySearchDelegate extends SearchDelegate<String> {
   // Widget of result page.
   @override
   Widget buildResults(BuildContext context) {
+
+    print("答案是 ${this.query}");
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            const Text('You have selected the word:'),
+            const Text('You have selected the word: '),
             GestureDetector(
               onTap: () {
                 // Returns this.query as result to previous screen, c.f.
-                // `showSearch()` above.
+                // `showSearch()` above
+
                 this.close(context, this.query);
               },
               child: Text(
@@ -158,15 +163,7 @@ class _MySearchDelegate extends SearchDelegate<String> {
   @override
   List<Widget> buildActions(BuildContext context) {
     return <Widget>[
-      if (query.isEmpty)
-        IconButton(
-          tooltip: 'Voice Search',
-          icon: const Icon(Icons.mic),
-          onPressed: () {
-            this.query = 'TODO: implement voice input';
-          },
-        )
-      else
+      if (query.isNotEmpty)
         IconButton(
           tooltip: 'Clear',
           icon: const Icon(Icons.clear),

@@ -117,4 +117,8 @@ class AccountDBProvider extends BaseDbProvider {
 
     return await db.rawQuery("UPDATE $name SET isHide = $topCode where id = $id");
   }
+
+  /// 查找数据
+ /// string name
+
 }

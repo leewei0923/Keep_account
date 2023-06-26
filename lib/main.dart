@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: '密码词典',
       theme: ThemeData(
-        primarySwatch: createMaterialColor(Color(0xFFF5ECD7)),
+        primarySwatch: createMaterialColor(Colors.white.withOpacity(0.9)),
       ),
       home: const MyHomePage(),
     );
@@ -116,14 +116,14 @@ class _MyHomePageState extends State<MyHomePage> {
                   final handleList = HandleList();
                   List<AccountModel> res =
                       handleList.removeOne(id, accountsList);
-                  int ilist = 0;
+                  int list = 0;
                   for (int i = 0; i < accountsList.length; i++) {
                     if (accountsList[i].id == id) {
-                      ilist = i;
+                      list = i;
                       break;
                     }
                   }
-                  setState(() => accountsList.removeAt(ilist));
+                  setState(() => accountsList.removeAt(list));
                   AccountDBProvider().delete(id);
                   Navigator.of(context).pop(); // 关闭对话框
                 },
@@ -163,7 +163,7 @@ class _MyHomePageState extends State<MyHomePage> {
         mainListScrollControl = scrollController;
         return Container(
           decoration: BoxDecoration(
-            color: CustomColors.bg200,
+            color: Color(0xFFEFEFEF),
             borderRadius: BorderRadius.circular(20),
           ),
           child: Scrollbar(
@@ -291,7 +291,6 @@ class _MyHomePageState extends State<MyHomePage> {
         appBar: AppBar(
           elevation: 0,
           actions: [
-            IconButton(onPressed: () {}, icon: const Icon(Icons.add_alert)),
             Container(
                 width: 40,
                 height: 40,
@@ -312,7 +311,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 height: screenHeigh,
                 child: Container(
                     width: screenWidth,
-                    color: const Color(0xFFF5ECD7),
+                    color: Colors.white,
                     child: Column(
                       children: [
                         Container(
