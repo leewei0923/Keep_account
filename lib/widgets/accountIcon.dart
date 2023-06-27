@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:keep_account/utils/iconMap.dart';
 
+/// 首页根据名称展示icon
 class AccountIcon extends StatelessWidget {
   final String iconName;
 

@@ -45,6 +45,7 @@ dependencies:
   flutter_slidable: ^3.0.0
   image_picker: ^0.8.7+5
   path_provider: ^2.0.15
+  font_awesome_flutter: ^10.4.0
 
 dev_dependencies:
   flutter_test:
@@ -73,6 +74,7 @@ flutter:
     - assets/FangZhengKaiTiJianTi.ttf
     - assets/images/init/init.png
     - assets/images/other/avatar.jpg
+    - assets/images/other/bg.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

@@ -65,8 +65,8 @@ class _PasswordInfoBox extends State<PasswordInfoBox> {
           MaterialPageRoute(
             builder: (context) => PasswordDetails(
                 appname: appNameStr,
-                account: '$accountStr',
-                password: '$password'),
+                account: accountStr,
+                password: password),
           ),
         );
       },
