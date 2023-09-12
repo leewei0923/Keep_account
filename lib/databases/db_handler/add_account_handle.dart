@@ -121,4 +121,11 @@ class AccountDBProvider extends BaseDbProvider {
   /// 查找数据
  /// string name
 
+
+ /// 加载账号列表
+  Future handleList() async {
+    Database db = await getDataBase();
+
+    return await db.query("SELECT id, appname, account from $name");
+  }
 }

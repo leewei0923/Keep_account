@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:keep_account/main.dart';
 import 'package:keep_account/pages/allAccountPage.dart';
+import 'package:keep_account/pages/mine.dart';
 import 'package:keep_account/pages/setting.dart';
 import 'package:keep_account/pages/preSetting.dart';
 
@@ -62,4 +63,5 @@ List<HomeSideBarListType> HomeSideBarLists = [
       label: "预先设置",
       router: PreSettingPage()),
   HomeSideBarListType(icon: Icons.settings, label: "应用设置", router: SettingPage()),
+  HomeSideBarListType(icon: Icons.person_rounded, label: "我的", router: MinePage()),
 ];

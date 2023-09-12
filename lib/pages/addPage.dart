@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:ui';
 import 'dart:io';
 import 'package:flutter/material.dart';
@@ -14,85 +15,12 @@ class AddPage extends StatefulWidget {
 }
 
 class _AddPage extends State<AddPage> {
-  // 控制密码是否显示的标志位
-  bool _obscureText = true;
-
-  final _focusNode = FocusNode();
-  bool _hasFocus = false;
+  GlobalKey _addInfoKey = GlobalKey<FormState>();
 
   @override
   void initState() {
     super.initState();
-    _focusNode.addListener(_onFocusChange);
   }
-
-  /*
-    * 获取textfiformid数据
-    * */
-
-  final TextEditingController appNameControl = TextEditingController();
-  final TextEditingController accountControl = TextEditingController();
-  final TextEditingController passwordControl = TextEditingController();
-
-  File? _imageFile;
-  final _picker = ImagePicker();
-
-  @override
-  void dispose() {
-    _focusNode.removeListener(_onFocusChange);
-    _focusNode.dispose();
-
-    appNameControl.dispose();
-    accountControl.dispose();
-    passwordControl.dispose();
-
-    super.dispose();
-  }
-
-  void _onFocusChange() {
-    setState(() {
-      _hasFocus = _focusNode.hasFocus;
-    });
-  }
-
-  void _onGetTextFieldText() async {
-    String appName = appNameControl.text;
-    String appAccount = accountControl.text;
-    String appPassword = passwordControl.text;
-
-    AccountDBProvider db = AccountDBProvider();
-
-    // 获取当前时间
-    DateTime now = DateTime.now();
-// 格式化时间
-    String formatted =
-        '${now.year}-${formTime(now.month)}-${formTime(now.day)} ${formTime(now.hour)}:${formTime(now.minute)}';
-
-    AccountModel accountModel = AccountModel(
-      icon: appName,
-      appname: appName,
-      account: appAccount,
-      password: appPassword,
-      insertTime: formatted,
-      updateTime: formatted,
-    );
-
-    db.insert(accountModel);
-  }
-
-  /// 获取本地图片
-  Future<void> pickImageFromGallery() async {
-    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
-
-    if (pickedFile != null) {
-      setState(() {
-        _imageFile = File(pickedFile.path);
-      });
-    }
-  }
-
-  /// 用于判断是否使用自定义图片
-  bool _isUsingCustomIcon = false;
 
   @override
   Widget build(BuildContext context) {
@@ -124,9 +52,16 @@ class _AddPage extends State<AddPage> {
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-
             ),
           ),
+          actions: [
+            TextButton(
+                onPressed: () {},
+                child: const Text(
+                  "保存",
+                  style: TextStyle(color: Colors.black),
+                ))
+          ],
           backgroundColor: Colors.white,
           shadowColor: Colors.transparent,
           leading: IconButton(
@@ -136,155 +71,172 @@ class _AddPage extends State<AddPage> {
             },
           ),
         ),
-        body: SingleChildScrollView(
+        body: Container(
+          width: screenWidth,
+          height: screenHeigh,
+          decoration: BoxDecoration(color: Colors.grey.shade200),
           child: Column(
             children: [
               Container(
-                width: screenWidth * 0.8,
-                margin: EdgeInsets.fromLTRB(
-                    screenWidth * 0.1, 40, screenWidth * 0.1, 10),
-                child: Row(
+                width: screenWidth * 0.95,
+                margin: const EdgeInsets.symmetric(vertical: 20),
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10)),
+                child: Column(
                   children: [
-                    const Text("自定义图标："),
-                    Switch(
-                        value: _isUsingCustomIcon,
-                        onChanged: (bool v) {
-                          setState(() {
-                            _isUsingCustomIcon = v;
-                          });
-                        })
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Container(
+                        margin: EdgeInsets.symmetric(
+                          horizontal: 15,
+                        ),
+                        padding: EdgeInsets.symmetric(vertical: 5),
+                        child: Text(
+                          "填写账号密码信息",
+                          style: TextStyle(
+                              color: Colors.grey.shade500,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15),
+                        ),
+                      ),
+                    ),
+                    Form(
+                      key: _addInfoKey,
+                      child: Column(
+                        children: [
+                          Container(
+                            width: screenWidth * 0.85,
+                            height: screenHeigh * 0.07,
+                            decoration: BoxDecoration(
+                                border: Border(
+                              bottom: BorderSide(
+                                color: Colors.grey.shade200, // 设置边框颜色
+                                width: 1, // 设置边框宽度
+                              ),
+                            )),
+                            child: Row(
+                              children: [
+                                SizedBox(
+                                  width: screenWidth * 0.1,
+                                  child: const Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      "账号:",
+                                      style: TextStyle(fontSize: 15),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: screenWidth * 0.60,
+                                  child: TextFormField(
+                                    cursorColor: Colors.blueAccent,
+                                    cursorHeight: 30,
+                                    textAlign: TextAlign.right,
+                                    style: TextStyle(color: Colors.blueAccent),
+                                    // controller: _pwdController,
+                                    decoration: InputDecoration(
+                                        hintText: "您的账号",
+                                        border: InputBorder.none),
+                                  ),
+                                ),
+                                Container(
+                                  width: screenWidth * 0.1,
+                                  height: screenWidth * 0.1,
+                                  margin: EdgeInsets.symmetric(
+                                      horizontal: screenWidth * 0.025),
+                                  decoration: const BoxDecoration(
+                                      shape: BoxShape.circle, // 设置形状为圆形
+                                      color: Colors.grey),
+                                )
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            width: screenWidth * 0.85,
+                            height: screenHeigh * 0.07,
+                            child: Row(
+                              children: [
+                                SizedBox(
+                                  width: screenWidth * 0.1,
+                                  child: const Align(
+                                    child: Text(
+                                      "密码:",
+                                    ),
+                                    alignment: Alignment.centerLeft,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: screenWidth * 0.60,
+                                  child: TextFormField(
+                                    textAlign: TextAlign.right,
+                                    // controller: _pwdController,
+                                    decoration: const InputDecoration(
+                                        hintText: "请输入您的密码",
+                                        border: InputBorder.none),
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.symmetric(
+                                      horizontal: screenWidth * 0.025),
+                                  width: screenWidth * 0.1,
+                                  child: IconButton(
+                                    icon: Icon(Icons.remove_red_eye_rounded),
+                                    onPressed: () {},
+                                  ),
+                                )
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),
-              //  改变icon
-              Visibility(
-                  visible: _isUsingCustomIcon,
-                  child: Center(
-                    child: Column(
-                      children: [
-                        Container(
-                          margin: EdgeInsets.fromLTRB(0, 40, 0, 10),
-                          width: 80,
-                          height: 80,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                                width: 1.0, color: Color(0xFF28B2A8)),
-                            shape: BoxShape.circle,
-                          ),
-                          child: IconButton(
-                            icon: _imageFile != null
-                                ? Image.file(_imageFile!)
-                                : Icon(Icons.photo),
-                            color: Color(0xFF28B2A8),
-                            iconSize: 60,
-                            onPressed: () {
-                              pickImageFromGallery();
-                            },
-                          ),
-                        ),
-                        const Text(
-                          "添加图标",
-                          style: TextStyle(color: Color(0xFF28B2A8)),
-                        )
-                      ],
-                    ),
-                  )),
-
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // 应用名称输入框
-                  const Text(
-                    "应用名称",
-                    style: TextStyle(color: Colors.black54),
-                  ),
-                  Container(
-                    width: screenWidth * 0.85,
-                    margin: EdgeInsets.symmetric(vertical: 10),
-                    child: TextFormField(
-                      controller: appNameControl,
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Colors.grey[200],
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: Colors.teal),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide.none,
-                        ),
-                        prefixIcon: Icon(Icons.app_registration),
-                      ),
-                    ),
-                  ),
-
-                  Text("账号", style: TextStyle(color: Colors.black54)),
-                  // 账号输入框
-                  Container(
-                    width: screenWidth * 0.85,
-                    margin: EdgeInsets.symmetric(vertical: 10),
-                    child: TextFormField(
-                      controller: accountControl,
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Colors.grey[200],
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: Colors.teal),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide.none,
-                        ),
-                        prefixIcon: Icon(Icons.person),
-                      ),
-                    ),
-                  ),
-
-                  Text("密码", style: TextStyle(color: Colors.black54)),
-                  // 密码输入框
-                  Container(
-                    width: screenWidth * 0.85,
-                    margin: EdgeInsets.symmetric(vertical: 10),
-                    child: TextFormField(
-                      controller: passwordControl,
-                      obscureText: _obscureText,
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Colors.grey[200],
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: Colors.teal),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide.none,
-                        ),
-                        prefixIcon: Icon(Icons.lock),
-                        suffixIcon: IconButton(
-                          icon: Icon(_obscureText
-                              ? Icons.visibility_off
-                              : Icons.visibility),
-                          onPressed: () {
-                            (context as Element).markNeedsBuild();
-                            setState(() {
-                              _obscureText = !_obscureText;
-                            });
-                          },
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-
               Container(
-                  margin: EdgeInsets.symmetric(vertical: 20),
-                  child: ElevatedButton(
-                    child: Text("保存账号"),
-                    onPressed: _onGetTextFieldText,
-                  ))
+                width: screenWidth * 0.95,
+                height: screenHeigh * 0.45,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10)),
+                child: Column(
+                  children: [
+                    Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      decoration: BoxDecoration(
+                          border: Border(
+                        bottom: BorderSide(
+                          color: Colors.grey.shade200, // 设置边框颜色
+                          width: 1, // 设置边框宽度
+                        ),
+                      )),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Text(
+                            "图标",
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.grey.shade600),
+                          ),
+                          Text(
+                            "图标从下表选择",
+                            style: TextStyle(
+                                fontSize: 13, color: Colors.grey.shade500),
+                          )
+                        ],
+                      ),
+                    ),
+                    Row(
+                      children: [Container(), Container()],
+                    )
+                  ],
+                ),
+              )
             ],
           ),
         ));

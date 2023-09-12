@@ -1,5 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:keep_account/databases/db_handler/handle_preset.dart';
+import 'package:keep_account/databases/models/preset_model.dart';
 import 'package:keep_account/widgets/preSettingCard.dart';
 
 class PreSettingPage extends StatefulWidget {
@@ -11,6 +13,12 @@ class PreSettingPage extends StatefulWidget {
 
 class PreSettingPageState extends State<PreSettingPage> {
   final GlobalKey<ScaffoldState> settingScaffoldKey = GlobalKey<ScaffoldState>();
+
+  late List<PresetModel> presetList =  [];
+
+  void onInitLoad() async {
+    // final preset = PresetProvider()
+  }
 
   @override
   Widget build(BuildContext context) {

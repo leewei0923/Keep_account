@@ -11,7 +11,6 @@ import 'package:keep_account/utils/colors.dart';
 import 'package:keep_account/utils/handleList.dart';
 import 'package:keep_account/widgets/HomeSideBarListView.dart';
 import 'package:keep_account/widgets/passwordInfoBox.dart';
-import 'package:hidable/hidable.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:keep_account/utils/utils.dart';
@@ -163,7 +162,7 @@ class _MyHomePageState extends State<MyHomePage> {
         mainListScrollControl = scrollController;
         return Container(
           decoration: BoxDecoration(
-            color: Color(0xFFEFEFEF),
+            color: const Color(0xFFEFEFEF),
             borderRadius: BorderRadius.circular(20),
           ),
           child: Scrollbar(
