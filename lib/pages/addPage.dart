@@ -8,6 +8,7 @@ import 'package:keep_account/databases/db_provider.dart';
 import 'package:keep_account/databases/models/account_model.dart';
 import 'package:keep_account/utils/utils.dart';
 import 'package:keep_account/pages/addPage.dart';
+import 'package:keep_account/widgets/IconContainer.dart';
 
 class AddPage extends StatefulWidget {
   @override
@@ -195,47 +196,9 @@ class _AddPage extends State<AddPage> {
                   ],
                 ),
               ),
-              Container(
+              IconContainer(
                 width: screenWidth * 0.95,
-                height: screenHeigh * 0.45,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10)),
-                child: Column(
-                  children: [
-                    Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                      decoration: BoxDecoration(
-                          border: Border(
-                        bottom: BorderSide(
-                          color: Colors.grey.shade200, // 设置边框颜色
-                          width: 1, // 设置边框宽度
-                        ),
-                      )),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Text(
-                            "图标",
-                            style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.grey.shade600),
-                          ),
-                          Text(
-                            "图标从下表选择",
-                            style: TextStyle(
-                                fontSize: 13, color: Colors.grey.shade500),
-                          )
-                        ],
-                      ),
-                    ),
-                    Row(
-                      children: [Container(), Container()],
-                    )
-                  ],
-                ),
+                height: screenHeigh * 0.6,
               )
             ],
           ),
