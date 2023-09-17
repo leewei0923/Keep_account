@@ -1,14 +1,8 @@
-import 'dart:math';
 import 'dart:ui';
-import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:keep_account/databases/db_handler/add_account_handle.dart';
-import 'package:keep_account/databases/db_provider.dart';
-import 'package:keep_account/databases/models/account_model.dart';
-import 'package:keep_account/utils/utils.dart';
-import 'package:keep_account/pages/addPage.dart';
+import 'package:keep_account/provider/change_icon_provider.dart';
 import 'package:keep_account/widgets/IconContainer.dart';
+import 'package:provider/provider.dart';
 
 class AddPage extends StatefulWidget {
   @override
@@ -26,7 +20,9 @@ class _AddPage extends State<AddPage> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = window.physicalSize.width / window.devicePixelRatio;
-    double screenHeigh = window.physicalSize.height / window.devicePixelRatio;
+    double screenHeight = window.physicalSize.height / window.devicePixelRatio;
+
+    final changeIconModel = Provider.of<ChangeIconModel>(context);
 
     return Scaffold(
         resizeToAvoidBottomInset: true,
@@ -74,7 +70,7 @@ class _AddPage extends State<AddPage> {
         ),
         body: Container(
           width: screenWidth,
-          height: screenHeigh,
+          height: screenHeight,
           decoration: BoxDecoration(color: Colors.grey.shade200),
           child: Column(
             children: [
@@ -109,7 +105,7 @@ class _AddPage extends State<AddPage> {
                         children: [
                           Container(
                             width: screenWidth * 0.85,
-                            height: screenHeigh * 0.07,
+                            height: screenHeight * 0.07,
                             decoration: BoxDecoration(
                                 border: Border(
                               bottom: BorderSide(
@@ -143,20 +139,22 @@ class _AddPage extends State<AddPage> {
                                   ),
                                 ),
                                 Container(
-                                  width: screenWidth * 0.1,
-                                  height: screenWidth * 0.1,
-                                  margin: EdgeInsets.symmetric(
-                                      horizontal: screenWidth * 0.025),
-                                  decoration: const BoxDecoration(
-                                      shape: BoxShape.circle, // 设置形状为圆形
-                                      color: Colors.grey),
-                                )
+                                    width: screenWidth * 0.1,
+                                    height: screenWidth * 0.1,
+                                    margin: EdgeInsets.symmetric(
+                                        horizontal: screenWidth * 0.025),
+                                    decoration: const BoxDecoration(
+                                        shape: BoxShape.circle, // 设置形状为圆形
+                                        color: Colors.grey),
+                                    child: changeIconModel?.currentIcon is String
+                                        ? Text(changeIconModel?.currentIcon)
+                                        : Icon(changeIconModel.currentIcon))
                               ],
                             ),
                           ),
                           SizedBox(
                             width: screenWidth * 0.85,
-                            height: screenHeigh * 0.07,
+                            height: screenHeight * 0.07,
                             child: Row(
                               children: [
                                 SizedBox(
@@ -198,7 +196,7 @@ class _AddPage extends State<AddPage> {
               ),
               IconContainer(
                 width: screenWidth * 0.95,
-                height: screenHeigh * 0.6,
+                height: screenHeight * 0.6,
               )
             ],
           ),

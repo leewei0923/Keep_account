@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:keep_account/common/appIcons.dart';
+import 'package:keep_account/provider/change_icon_provider.dart';
+import 'package:provider/provider.dart';
 
 class IconContainer extends StatefulWidget {
   const IconContainer({Key? key, required this.width, required this.height})
@@ -35,6 +38,18 @@ class IconContainerState extends State<IconContainer> {
       '旅游出行',
       '交通导航'
     ];
+
+    List<IconData> iconsList = [
+      AppIcons.qq,
+      AppIcons.wechat,
+      AppIcons.alipay,
+      AppIcons.baidu,
+      AppIcons.bilibili,
+      AppIcons.github,
+      AppIcons.Google
+    ];
+
+    final changeIconModel = Provider.of<ChangeIconModel>(context);
 
     return Container(
       width: widget.width,
@@ -94,7 +109,24 @@ class IconContainerState extends State<IconContainer> {
                       );
                     },
                   )),
-              Container()
+              Container(
+                  width: widget.width * 0.7,
+                  height: widget.height - 70,
+                  child: GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3, //每行三列
+                      childAspectRatio: 1.0, //显示区域宽高相等
+                    ),
+                    itemCount: iconsList.length,
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                        onTap: () {
+                          changeIconModel.changeIcon(iconsList[index]);
+                        },
+                        child: Icon(iconsList[index]),
+                      );
+                    },
+                  ))
             ],
           )
         ],

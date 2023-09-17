@@ -6,6 +6,7 @@ import 'package:keep_account/databases/db_handler/add_account_handle.dart';
 import 'package:keep_account/databases/models/account_model.dart';
 import 'package:keep_account/pages/addPage.dart';
 import 'package:keep_account/pages/searchPage.dart';
+import 'package:keep_account/provider/change_icon_provider.dart';
 import 'package:keep_account/provider/pop_menu_provider.dart';
 import 'package:keep_account/utils/colors.dart';
 import 'package:keep_account/utils/handleList.dart';
@@ -218,16 +219,6 @@ class _MyHomePageState extends State<MyHomePage> {
       menuProvider.changeMenu('', 0);
     });
 
-    // 抽屉布局的头部
-    // const drawerHeader = UserAccountsDrawerHeader(
-    //   accountName: Text("Leewei"),
-    //   accountEmail: Text(""),
-    //   currentAccountPicture: CircleAvatar(
-    //     backgroundColor: Colors.white,
-    //     child: FlutterLogo(size: 42),
-    //   ),
-    // );
-
     Widget drawerHeader = Container(
       alignment: Alignment.centerLeft,
       width: 120,
@@ -371,9 +362,13 @@ class _MyHomePageState extends State<MyHomePage> {
                                     final result = await Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => AddPage()),
+                                          builder: (context) =>
+                                              ChangeNotifierProvider(
+                                                create: (_) =>
+                                                    ChangeIconModel(),
+                                                child: AddPage(),
+                                              )),
                                     );
-
                                     if (result == "addPage") {
                                       onLoadDB();
                                       _forceRefresh();
