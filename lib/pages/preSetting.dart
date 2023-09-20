@@ -1,7 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:keep_account/databases/db_handler/handle_preset.dart';
 import 'package:keep_account/databases/models/preset_model.dart';
+import 'package:keep_account/pages/addPreSetting.dart';
 import 'package:keep_account/widgets/preSettingCard.dart';
 
 class PreSettingPage extends StatefulWidget {
@@ -12,9 +12,10 @@ class PreSettingPage extends StatefulWidget {
 }
 
 class PreSettingPageState extends State<PreSettingPage> {
-  final GlobalKey<ScaffoldState> settingScaffoldKey = GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> settingScaffoldKey = GlobalKey<
+      ScaffoldState>();
 
-  late List<PresetModel> presetList =  [];
+  late List<PresetModel> presetList = [];
 
   void onInitLoad() async {
     // final preset = PresetProvider()
@@ -80,88 +81,18 @@ class PreSettingPageState extends State<PreSettingPage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-          tooltip: "添加预设内容",
-          onPressed: () =>
-              settingScaffoldKey.currentState?.showBottomSheet((context) =>
-                  _buildBottomSheet(context)),
-          child: Icon(Icons.add),
-    ),);
+        tooltip: "添加预设内容",
+        onPressed: () async {
+          await Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      AddPreSettingPage()
+              ));
+        },
+
+        child: const Icon(Icons.add),
+      ),);
   }
 }
 
-Container _buildBottomSheet(BuildContext context) {
-  return Container(
-    height: 300,
-    padding: const EdgeInsets.all(2.0),
-    decoration: BoxDecoration(
-      border: Border.all(color: Colors.blue, width: 2.0),
-      borderRadius: BorderRadius.circular(8.0),
-    ),
-    child: ListView(
-      children: <Widget>[
-        const ListTile(title: Text('编辑内容')),
-        const TextField(
-          keyboardType: TextInputType.number,
-          decoration: InputDecoration(
-            icon: Icon(Icons.title),
-          ),
-        ),
-        const TextField(
-          keyboardType: TextInputType.number,
-          decoration: InputDecoration(
-            icon: Icon(Icons.numbers),
-          ),
-        ),
-        Flex(
-          direction: Axis.horizontal,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              alignment: Alignment.center,
-              margin: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
-              child: ElevatedButton.icon(
-                icon: const Icon(
-                  Icons.save,
-                  color: Colors.white,
-                ),
-                label: const Text(
-                  '保存',
-                  style: TextStyle(color: Colors.white),
-                ),
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                        (Set<MaterialState> states) {
-                      return Colors.blue; // 按钮默认的颜色
-                    },
-                  ),
-                ),
-                onPressed: () => Navigator.pop(context),
-              ),
-            ),
-            Container(
-              alignment: Alignment.center,
-              child: ElevatedButton.icon(
-                icon: const Icon(
-                  Icons.close,
-                  color: Colors.white,
-                ),
-                label: const Text(
-                  '关闭',
-                  style: TextStyle(color: Colors.white),
-                ),
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                        (Set<MaterialState> states) {
-                      return Colors.red.withOpacity(0.8); // 按钮默认的颜色
-                    },
-                  ),
-                ),
-                onPressed: () => Navigator.pop(context),
-              ),
-            )
-          ],
-        ),
-      ],
-    ),
-  );
-}
